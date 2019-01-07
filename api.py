@@ -47,6 +47,7 @@ def wechat_auth():
         with open("./debug.log", "a") as file:
             file.write(data)
             file.close()
+
         response = make_response(data)
         response.content_type = 'application/xml'
         return response
