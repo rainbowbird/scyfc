@@ -6,7 +6,6 @@ import importlib
 import time
 import json
 import xml.etree.ElementTree as ET
-from robot import *
 
 importlib.reload(sys)
 
