@@ -9,7 +9,7 @@ import json
 import xml.etree.ElementTree as ET
 from flask import Flask, request, make_response
 import dispatcher
-import menu
+from menu import *
 
 importlib.reload(sys)  # 不加这部分处理中文还是会出问题
 
@@ -59,3 +59,6 @@ def wechat_auth():
 #    access_token = menu.get_access_token('wx25c644f06f4f6c68', 'f88f64ce280f6b686e17b52fc2d9066f')
 #    menu.create_menu(access_token)
 
+myMenu = Menu()
+myMenu.delete_menu()
+myMenu.create_menu()

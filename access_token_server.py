@@ -35,8 +35,10 @@ def _real_get_access_token():
     global _accessToken
     global _leftTime
 
-    appId = "wx25c644f06f4f6c68"
-    appSecret = "f88f64ce280f6b686e17b52fc2d9066f"
+    appId = "wxb0bb415e8ca0d547"
+    appSecret = "286786a3e4c8e457d52745215d776c03"
+    #appId = "wx25c644f06f4f6c68"
+    #appSecret = "f88f64ce280f6b686e17b52fc2d9066f"
     postUrl = ("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s" % (appId, appSecret))
 
     with urllib.request.urlopen(postUrl) as response:
