@@ -7,6 +7,9 @@ import time
 import json
 import xml.etree.ElementTree as ET
 
+from generate_qrcode import *
+from temporary_media import *
+
 importlib.reload(sys)
 
 class MsgParser(object):
@@ -23,13 +26,18 @@ class MsgParser(object):
         self.master = self.et.find("ToUserName").text
         self.msgtype = self.et.find("MsgType").text
 
-        self.content = self.et.find("Content").text if self.et.find("Content") is not None else ""
-        self.recognition = self.et.find("Recognition").text if self.et.find("Recognition") is not None else ""
-        self.format = self.et.find("Format").text if self.et.find("Format") is not None else ""
-        self.msgid = self.et.find("MsgId").text if self.et.find("MsgId") is not None else ""
-        self.picurl = self.et.find("PicUrl").text if self.et.find("PicUrl") is not None else ""
-        self.mediaid = self.et.find("MediaId").text if self.et.find("MediaId") is not None else ""
+        #self.content = self.et.find("Content").text if self.et.find("Content") is not None else ""
+        #self.recognition = self.et.find("Recognition").text if self.et.find("Recognition") is not None else ""
+        #self.format = self.et.find("Format").text if self.et.find("Format") is not None else ""
+        #self.msgid = self.et.find("MsgId").text if self.et.find("MsgId") is not None else ""
+        #self.picurl = self.et.find("PicUrl").text if self.et.find("PicUrl") is not None else ""
+        #self.mediaid = self.et.find("MediaId").text if self.et.find("MediaId") is not None else ""
         self.event = self.et.find("Event").text if self.et.find("Event") is not None else ""
+        self.eventkey = self.et.find("EventKey").text if self.et.find("EventKey") is not None else ""
+        self.ticket = self.et.find("Ticket").text if self.et.find("Ticket") is not None else ""
+        self.latitude = self.et.find("Latitude").text if self.et.find("Latitude") is not None else ""
+        self.longtitude = self.et.find("Longtitude").text if self.et.find("Longtitude") is not None else ""
+        self.precision = self.et.find("Precision").text if self.et.find("Precision") is not None else ""
 
         return self
 
@@ -46,22 +54,25 @@ class MsgDispatcher(object):
     def dispatch(self):
         self.result = ""  # 统一的公众号出口数据
 
-        if self.msg.msgtype == "text":
-            self.result = self.handler.textHandle()
-        elif self.msg.msgtype == "voice":
-            self.result = self.handler.voiceHandle()
-        elif self.msg.msgtype == 'image':
-            self.result = self.handler.imageHandle()
-        elif self.msg.msgtype == 'video':
-            self.result = self.handler.videoHandle()
-        elif self.msg.msgtype == 'shortvideo':
-            self.result = self.handler.shortVideoHandle()
-        elif self.msg.msgtype == 'location':
-            self.result = self.handler.locationHandle()
-        elif self.msg.msgtype == 'link':
-            self.result = self.handler.linkHandle()
-        elif self.msg.msgtype == 'event':
+        if self.msg.msgtype == "event":
             self.result = self.handler.eventHandle()
+
+        #if self.msg.msgtype == "text":
+        #    self.result = self.handler.textHandle()
+        #elif self.msg.msgtype == "voice":
+        #    self.result = self.handler.voiceHandle()
+        #elif self.msg.msgtype == 'image':
+        #    self.result = self.handler.imageHandle()
+        #elif self.msg.msgtype == 'video':
+        #    self.result = self.handler.videoHandle()
+        #elif self.msg.msgtype == 'shortvideo':
+        #    self.result = self.handler.shortVideoHandle()
+        #elif self.msg.msgtype == 'location':
+        #    self.result = self.handler.locationHandle()
+        #elif self.msg.msgtype == 'link':
+        #    self.result = self.handler.linkHandle()
+        #elif self.msg.msgtype == 'event':
+        #    self.result = self.handler.eventHandle()
 
         return self.result
 
@@ -73,6 +84,45 @@ class MsgHandler(object):
     def __init__(self, msg):
         self.msg = msg
         self.time = int(time.time())
+
+    def eventHandle(self):
+        if self.msg.event == "CLICK":
+            if self.msg.eventkey == "contact_info":
+                print("contact info")
+                template = """
+                <xml>
+                    <ToUserName><![CDATA[{}]]></ToUserName>
+                    <FromUserName><![CDATA[{}]]></FromUserName>
+                    <CreateTime>{}</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[{}]]></Content>
+                </xml>
+                """
+                response = template.format(self.msg.user, self.msg.master,
+                                           self.time, "手机 1361-192-2613")
+                return response
+
+            if self.msg.eventkey == "reservation_qrcode":
+                print("get reservation_qrcode request")
+                template = """
+                <xml>
+                    <ToUserName><![CDATA[{}]]></ToUserName>
+                    <FromUserName><![CDATA[{}]]></FromUserName>
+                    <CreateTime>{}</CreateTime>
+                    <MsgType><![CDATA[image]]></MsgType>
+                    <Image>
+                      <MediaId><![CDATA[{}]]></MediaId>
+                    </Image>
+                </xml>
+                """
+
+                image_data = create_scene_qrcode_image()
+                # get media_id
+                myTemporaryMedia = TemporaryMedia()
+                media_id = myTemporaryMedia.upload_image(image_data)
+                response = template.format(self.msg.user, self.msg.master,
+                                           self.time, media_id)
+                return response
 
     def textHandle(self, user='', master='', time='', content=''):
         template = """
@@ -163,8 +213,6 @@ class MsgHandler(object):
     def linkHandle(self):
         return 'link'
 
-    def eventHandle(self):
-        return 'event'
 
     def newsHandle(self, items):
         # 图文消息这块真的好多坑，尤其是<![CDATA[]]>中间不可以有空格，可怕极了
@@ -176,7 +224,7 @@ class MsgHandler(object):
             <Url><![CDATA[{}]]></Url>
         </item>
         """
-        itemstr = "" 
+        itemstr = ""
         for item in items:
             itemstr += str(articlestr.format(item['title'], item['description'], item['picurl'], item['url']))
 
