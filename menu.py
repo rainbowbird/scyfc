@@ -50,8 +50,3 @@ class Menu():
         proxy = xmlrpc.client.ServerProxy('http://localhost:9000')
         print(proxy.get_access_token())
         return proxy.get_access_token()
-
-
-#if __name__ == '__main__':
-#    myMenu = Menu()
-#    myMenu.create_menu()

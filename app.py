@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-import sys
-import importlib
-import time
 import hashlib
+import importlib
 import json
+import sys
+import time
 import xml.etree.ElementTree as ET
-from flask import Flask, request, make_response
+
+from flask import Flask, make_response, request
+
 import dispatcher
 from menu import *
 
@@ -15,6 +17,10 @@ importlib.reload(sys)  # 不加这部分处理中文还是会出问题
 
 app = Flask(__name__)
 app.debug = True
+
+myMenu = Menu()
+myMenu.delete_menu()
+myMenu.create_menu()
 
 @app.route('/')  # 默认网址
 def index():
@@ -52,13 +58,3 @@ def wechat_auth():
         response.content_type = 'application/xml'
         return response
 
-#if __name__ == '__main__':
-#    app.run(host="0.0.0.0", port=80)
-    #accessToken = Basic().get_access_token()
-    #myMenu = Menu()
-#    access_token = menu.get_access_token('wx25c644f06f4f6c68', 'f88f64ce280f6b686e17b52fc2d9066f')
-#    menu.create_menu(access_token)
-
-myMenu = Menu()
-myMenu.delete_menu()
-myMenu.create_menu()

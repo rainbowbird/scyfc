@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-# filename: basic.py
+# filename: access_token_server.py 
 
-from xmlrpc.server import SimpleXMLRPCServer
-import threading
-import urllib.request
-import time
 import json
-
+import threading
+import time
+import urllib.request
+from xmlrpc.server import SimpleXMLRPCServer
 
 _accessToken = ""
 _leftTime = 0
@@ -36,9 +35,7 @@ def _real_get_access_token():
     global _leftTime
 
     appId = "wxb0bb415e8ca0d547"
-    appSecret = "286786a3e4c8e457d52745215d776c03"
-    #appId = "wx25c644f06f4f6c68"
-    #appSecret = "f88f64ce280f6b686e17b52fc2d9066f"
+    appSecret = "6c40dd3dc217138b77189ce08c748d1c"
     postUrl = ("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s" % (appId, appSecret))
 
     with urllib.request.urlopen(postUrl) as response:
@@ -59,4 +56,3 @@ if __name__ == '__main__':
             _leftTime -= 2
         else:
             _real_get_access_token()
-
