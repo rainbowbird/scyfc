@@ -103,8 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-debug.log
-
 .vscode
-debug.log
+scyfc_app/debug.log
 Private

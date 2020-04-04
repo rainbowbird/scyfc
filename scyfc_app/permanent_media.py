@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import requests
 import json
 import xmlrpc.client
+
+import requests
+
 
 class PermanentMedia():
     def __init__(self):
@@ -74,4 +76,3 @@ class PermanentMedia():
 if __name__ == "__main__":
     myPermanentMedia = PermanentMedia()
     myPermanentMedia.get_news()
-

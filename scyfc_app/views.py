@@ -10,21 +10,19 @@ import xml.etree.ElementTree as ET
 
 from flask import Flask, make_response, request
 
-import dispatcher
-from menu import *
+from . import app, dispatcher
 
 importlib.reload(sys)  # 不加这部分处理中文还是会出问题
-
-app = Flask(__name__)
-app.debug = True
-
-myMenu = Menu()
-myMenu.delete_menu()
-myMenu.create_menu()
 
 @app.route('/')  # 默认网址
 def index():
     return 'Index Page'
+
+@app.route("/data")
+@app.route("/MP_verify_7QJH9uUdXgv284uQ.txt")
+def get_data():
+    print("hello data")
+    return app.send_static_file("MP_verify_7QJH9uUdXgv284uQ.txt")
 
 @app.route('/wx', methods=['GET', 'POST'])
 def wechat_auth():
@@ -57,4 +55,3 @@ def wechat_auth():
         response = make_response(data)
         response.content_type = 'application/xml'
         return response
-

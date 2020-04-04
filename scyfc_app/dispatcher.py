@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding:utf8 -*-
 
-import sys
 import importlib
-import time
 import json
+import sys
+import time
 import xml.etree.ElementTree as ET
 
-from generate_qrcode import *
-from temporary_media import *
+from .generate_qrcode import *
+from .temporary_media import *
 
 importlib.reload(sys)
 
