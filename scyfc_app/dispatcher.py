@@ -8,7 +8,7 @@ import time
 import xml.etree.ElementTree as ET
 
 from .generate_qrcode import *
-from .temporary_media import *
+from .utils.temporary_media import *
 
 importlib.reload(sys)
 
