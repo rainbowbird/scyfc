@@ -7,7 +7,7 @@ import os
 import xmlrpc.client
 
 class Menu():
-    def __init__(self, filename='menu.json'):
+    def __init__(self, filename='./res/menu.json'):
         self._filename = filename
 
     def create_menu(self):
@@ -19,11 +19,9 @@ class Menu():
 
         accessToken = self._get_access_token()
         menu_url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token={access_token}'.format(access_token=accessToken)
-        #r = requests.post(menu_url, json=data)
         r = requests.post(menu_url,
                           data=json.dumps(json_data,ensure_ascii=False).encode('utf-8'))
         assert r.status_code == 200
-        #assert r.json().get('errcode') == 0
         print(r.text)
 
     def get_menu(self):
@@ -48,5 +46,5 @@ class Menu():
 
     def _get_access_token(self):
         proxy = xmlrpc.client.ServerProxy('http://localhost:9000')
-        print(proxy.get_access_token())
+        #print(proxy.get_access_token())
         return proxy.get_access_token()

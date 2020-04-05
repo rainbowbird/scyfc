@@ -46,7 +46,7 @@ def get_qrcode_image_data(url):
     imgW, imgH = img.size
 
     w1, h1 = map(lambda x: x//4, img.size)
-    icon = Image.open("scyfc_club.jpeg")
+    icon = Image.open("./res/scyfc_club.jpeg")
     iconW, iconH = icon.size
     w1 = w1 if w1 < iconW else iconW
     h1 = h1 if h1 < iconH else iconH

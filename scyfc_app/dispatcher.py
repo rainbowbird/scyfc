@@ -71,8 +71,6 @@ class MsgDispatcher(object):
         #    self.result = self.handler.locationHandle()
         #elif self.msg.msgtype == 'link':
         #    self.result = self.handler.linkHandle()
-        #elif self.msg.msgtype == 'event':
-        #    self.result = self.handler.eventHandle()
 
         return self.result
 
@@ -123,6 +121,22 @@ class MsgHandler(object):
                 response = template.format(self.msg.user, self.msg.master,
                                            self.time, media_id)
                 return response
+        elif self.msg.event == "VIEW":
+            print("get view event request: eventkey {}".format(self.msg.eventkey))
+
+            template = """
+            <xml>
+                <ToUserName><![CDATA[{}]]></ToUserName>
+                <FromUserName><![CDATA[{}]]></FromUserName>
+                <CreateTime>{}</CreateTime>
+                <MsgType><![CDATA[text]]></MsgType>
+                <Content><![CDATA[{}]]></Content>
+            </xml>
+            """
+            response = template.format(self.msg.user, self.msg.master,
+                                        self.time, self.msg.eventkey)
+            return response
+
 
     def textHandle(self, user='', master='', time='', content=''):
         template = """
@@ -158,30 +172,6 @@ class MsgHandler(object):
                f.close()
         return result
 
-    def musicHandle(self, title='', description='', url='', hqurl=''):
-        template = """
-        <xml>
-             <ToUserName><![CDATA[{}]]></ToUserName>
-             <FromUserName><![CDATA[{}]]></FromUserName>
-             <CreateTime>{}</CreateTime>
-             <MsgType><![CDATA[music]]></MsgType>
-             <Music>
-             <Title><![CDATA[{}]]></Title>
-             <Description><![CDATA[{}]]></Description>
-             <MusicUrl><![CDATA[{}]]></MusicUrl>
-             <HQMusicUrl><![CDATA[{}]]></HQMusicUrl>
-             </Music>
-             <FuncFlag>0</FuncFlag>
-        </xml>
-        """
-        response = template.format(self.msg.user, self.msg.master, self.time, title, description, url, hqurl)
-        return response
-
-    def voiceHandle(self):
-        response = get_turing_response(self.msg.recognition)
-        result = self.textHandle(self.msg.user, self.msg.master, self.time, response)
-        return result
-
     def imageHandle(self, user='', master='', time='', mediaid=''):
         template = """
         <xml>
@@ -201,6 +191,30 @@ class MsgHandler(object):
         result = template.format(self.msg.user, self.msg.master, self.time, response)
         return result
 
+    def voiceHandle(self):
+        response = get_turing_response(self.msg.recognition)
+        result = self.textHandle(self.msg.user, self.msg.master, self.time, response)
+        return result
+
+    def musicHandle(self, title='', description='', url='', hqurl=''):
+        template = """
+        <xml>
+             <ToUserName><![CDATA[{}]]></ToUserName>
+             <FromUserName><![CDATA[{}]]></FromUserName>
+             <CreateTime>{}</CreateTime>
+             <MsgType><![CDATA[music]]></MsgType>
+             <Music>
+             <Title><![CDATA[{}]]></Title>
+             <Description><![CDATA[{}]]></Description>
+             <MusicUrl><![CDATA[{}]]></MusicUrl>
+             <HQMusicUrl><![CDATA[{}]]></HQMusicUrl>
+             </Music>
+             <FuncFlag>0</FuncFlag>
+        </xml>
+        """
+        response = template.format(self.msg.user, self.msg.master, self.time, title, description, url, hqurl)
+        return response
+
     def videoHandle(self):
         return 'video'
 
@@ -212,31 +226,3 @@ class MsgHandler(object):
 
     def linkHandle(self):
         return 'link'
-
-
-    def newsHandle(self, items):
-        # 图文消息这块真的好多坑，尤其是<![CDATA[]]>中间不可以有空格，可怕极了
-        articlestr = """
-        <item>
-            <Title><![CDATA[{}]]></Title>
-            <Description><![CDATA[{}]]></Description>
-            <PicUrl><![CDATA[{}]]></PicUrl>
-            <Url><![CDATA[{}]]></Url>
-        </item>
-        """
-        itemstr = ""
-        for item in items:
-            itemstr += str(articlestr.format(item['title'], item['description'], item['picurl'], item['url']))
-
-        template = """
-        <xml>
-            <ToUserName><![CDATA[{}]]></ToUserName>
-            <FromUserName><![CDATA[{}]]></FromUserName>
-            <CreateTime>{}</CreateTime>
-            <MsgType><![CDATA[news]]></MsgType>
-            <ArticleCount>{}</ArticleCount>
-            <Articles>{}</Articles>
-        </xml>
-        """
-        result = template.format(self.msg.user, self.msg.master, self.time, len(items), itemstr)
-        return result

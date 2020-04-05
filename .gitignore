@@ -106,3 +106,4 @@ venv.bak/
 .vscode
 scyfc_app/debug.log
 Private
+py3.6_venv

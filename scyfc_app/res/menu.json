@@ -4,19 +4,19 @@
             "name": "了解俱乐部",
             "sub_button": [
                 {
-                    "type": "media_id",
+                    "type": "view",
                     "name": "俱乐部介绍",
-                    "media_id": "1kdlmU40Nw8L4zUN3ohQqcM5_XK6yjIcLvigU_DGJWo"
+                    "url": "http://www.scyfc.club/"
                 },
                 {
-                    "type": "media_id",
+                    "type": "view",
                     "name": "课程安排",
-                    "media_id": "1kdlmU40Nw8L4zUN3ohQqaEMp2EGmDQaLYUWHW5aZbM"
+                    "url": "http://www.scyfc.club/classes"
                 },
                 {
                     "type": "click",
                     "name": "精彩活动",
-                    "key": "wonderful_activities"
+                    "key": "wonderful_activites"
                 }
             ]
         },

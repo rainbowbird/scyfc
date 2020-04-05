@@ -65,8 +65,7 @@ class PermanentMedia():
         r = requests.post(url, data=data)
 
         with open('news_material.json', 'w') as f:
-            #json.dump(r.json(), f, ensure_ascii=False, indent=4, sort_keys=True)
-            json.dump(r.json(), f, indent=4, sort_keys=True)
+            json.dump(r.json(), f, indent=4, ensure_ascii=False, sort_keys=True)
 
     def _get_access_token(self):
         proxy = xmlrpc.client.ServerProxy('http://localhost:9000')
