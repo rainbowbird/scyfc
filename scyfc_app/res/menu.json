@@ -41,12 +41,12 @@
                 {
                     "type": "view",
                     "name": "一周一练",
-                    "url": "http://www.scyfc.club/pay_one_exercise_per_week"
+                    "url": "http://www.scyfc.club/pay/one_exercise_per_week"
                 },
                 {
                     "type": "view",
                     "name": "一周两练",
-                    "url": "http://www.scyfc.club/pay_two_exercises_per_week"
+                    "url": "http://www.scyfc.club/pay/two_exercises_per_week"
                 },
                 {
                     "type": "view",

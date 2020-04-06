@@ -101,3 +101,14 @@ def redirect_member():
     url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={}&redirect_uri={}&response_type=code&scope=snsapi_userinfo&state=OLIGEI#wechat_redirect".format(APPID, redirect_uri)
 
     return redirect(url)
+
+@app.route('/pay/one_exercise_per_week')
+def pay_one_exerciese_per_week():
+    print("get pay request")
+    return "<h1>pay_one_exerciese_per_week</h1>"
+
+
+@app.route('/pay/two_exercises_per_week')
+def pay_two_exercieses_per_week():
+    print("get pay request")
+    return "<h1>pay_two_exercieses_per_week</h1>"
