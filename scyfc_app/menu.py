@@ -22,17 +22,19 @@ class Menu():
         r = requests.post(menu_url,
                           data=json.dumps(json_data,ensure_ascii=False).encode('utf-8'))
         assert r.status_code == 200
+        print("create_menu")
         print(r.text)
 
     def get_menu(self):
         """
         get menu
         """
+        print("get_menu")
         accessToken = self._get_access_token()
         menu_url = 'https://api.weixin.qq.com/cgi-bin/menu/get?access_token={access_token}'.format(access_token=accessToken)
         r = requests.get(menu_url)
         assert r.status_code == 200
-        print(r.json())
+        #print(r.json())
 
     def delete_menu(self):
         """
@@ -42,6 +44,7 @@ class Menu():
         menu_url = 'https://api.weixin.qq.com/cgi-bin/menu/delete?access_token={access_token}'.format(access_token=accessToken)
         r = requests.get(menu_url)
         assert r.status_code == 200
+        print("delete_menu")
         print(r.json())
 
     def _get_access_token(self):

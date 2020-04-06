@@ -6,7 +6,7 @@
                 {
                     "type": "view",
                     "name": "俱乐部介绍",
-                    "url": "http://www.scyfc.club/"
+                    "url": "http://www.scyfc.club/about_club"
                 },
                 {
                     "type": "view",
@@ -39,14 +39,19 @@
             "name": "我要加入",
             "sub_button": [
                 {
-                    "type": "click",
+                    "type": "view",
                     "name": "一周一练",
-                    "key": "one_exercise_per_week"
+                    "url": "http://www.scyfc.club/pay_one_exercise_per_week"
                 },
                 {
-                    "type": "click",
+                    "type": "view",
                     "name": "一周两练",
-                    "key": "two_exercises_per_week"
+                    "url": "http://www.scyfc.club/pay_two_exercises_per_week"
+                },
+                {
+                    "type": "view",
+                    "name": "会员中心",
+                    "url": "http://www.scyfc.club/redirect_member"
                 }
             ]
         }
