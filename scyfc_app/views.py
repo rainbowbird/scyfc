@@ -67,48 +67,36 @@ def wechat_auth():
 def about_club():
     # get user data
     # 1. get code
-    #code = request.args.get("code")
-    #if not code:
-    #    return "缺失code参数"
+    code = request.args.get("code")
+    if not code:
+        return "缺失code参数"
     
     # 2. get access token
-    #appId = "wxb0bb415e8ca0d547"
-    #appSecret = "6c40dd3dc217138b77189ce08c748d1c"
+    url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={}&secret={}&code={}&grant_type=authorization_code".format(APPID, APPSECRET, code)
+    with urllib.request.urlopen(url) as response:
+        urlResp = json.loads(response.read())
 
-    #url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={}&secret={}&code={}&grant_type=authorization_code".format(appId, appSecret, code)
-    #with urllib.request.urlopen(url) as response:
-    #    urlResp = json.loads(response.read())
+    if "errcode" in urlResp:
+        return "获取access_token失败"
 
-    #if "errcode" in urlResp:
-    #    return "获取access_token失败"
-
-    #access_token = urlResp['access_token']
-    #open_id = urlResp['open_id']
+    access_token = urlResp['access_token']
+    open_id = urlResp['openid']
 
     # 3 get user data
-    #url =  'https://api.weixin.qq.com/sns/userinfo?access_token={}&openid={}&lang=zh_CN'.format(access_token, open_id)
-    #with urllib.request.urlopen(url) as response:
-    #    urlResp = json.loads(response.read())
+    url =  'https://api.weixin.qq.com/sns/userinfo?access_token={}&openid={}&lang=zh_CN'.format(access_token, open_id)
+    with urllib.request.urlopen(url) as response:
+        urlResp = json.loads(response.read())
 
-    #if "errcode" in urlResp:
-    #    return "获取用户数据失败"
-    #else
-    #    # fill the webpage with user data
-    #    return render_template("about_club.html")
+    if "errcode" in urlResp:
+        return "获取用户数据失败"
+    else:
+        # fill the webpage with user data
+        return render_template("club_member.html", user=urlResp)
 
-
-    user_data = {}
-    user_data["nickname"] = "rainbowbird"
-    user_data["openid"] = "12345678"
-    user_data["sex"] = 1
-    user_data["country"] = "中国"
-    user_data["city"] = "上海"
-    user_data['province'] = "上海"
-    return render_template("about_club.html", user=user_data)
 
 @app.route('/redirect_member')
 def redirect_member():
-    redirect_uri = urllib.parse.quote("http://scyfc.club/club_member")
+    redirect_uri = urllib.parse.quote("http://www.scyfc.club/club_member")
     print(redirect_uri)
     url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={}&redirect_uri={}&response_type=code&scope=snsapi_userinfo&state=OLIGEI#wechat_redirect".format(APPID, redirect_uri)
 
