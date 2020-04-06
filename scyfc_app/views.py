@@ -31,6 +31,7 @@ def get_data():
     print("hello data")
     return app.send_static_file("MP_verify_7QJH9uUdXgv284uQ.txt")
 
+
 @app.route('/wx', methods=['GET', 'POST'])
 def wechat_auth():
     '''
@@ -62,6 +63,7 @@ def wechat_auth():
         response = make_response(data)
         response.content_type = 'application/xml'
         return response
+
 
 @app.route('/club_member')
 def about_club():
@@ -102,6 +104,7 @@ def redirect_member():
 
     return redirect(url)
 
+
 @app.route('/pay/one_exercise_per_week')
 def pay_one_exerciese_per_week():
     print("get pay request")
@@ -112,3 +115,4 @@ def pay_one_exerciese_per_week():
 def pay_two_exercieses_per_week():
     print("get pay request")
     return "<h1>pay_two_exercieses_per_week</h1>"
+
