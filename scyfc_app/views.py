@@ -108,7 +108,7 @@ def redirect_member():
 @app.route('/pay/one_exercise_per_week')
 def pay_one_exerciese_per_week():
     print("get pay request")
-    return "<h1>pay_one_exerciese_per_week</h1>"
+    return render_template("pay.html", msg="Diankun")
 
 
 @app.route('/pay/two_exercises_per_week')

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <title>WeiXin Pay</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/weui.min.css')}}" type="text/css">
+    </head>
+    <body>
+        <div>
+        <h1>Hello, {{msg}}</h1>
+        </div>
+        <div>
+            <a href="javascript:;" class="weui-btn weui-btn_primary" id="pay_button">100元</a>
+        </div>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/weui.min.js')}}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/wx_pay.js')}}"></script>
+
+    </body>
+</html>
