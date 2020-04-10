@@ -10,14 +10,14 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/weui.min.css')}}" type="text/css">
     </head>
     <body>
+        <div id="mydiv" data-mydata='{{ mydata|tojson }}'>Hello World</div>
+
         <div>
-        <h1>Hello, {{msg}}</h1>
-        </div>
-        <div>
-            <a href="javascript:;" class="weui-btn weui-btn_primary" id="pay_button">100元</a>
+            <a href="javascript:;" class="weui-btn weui-btn_primary" id="pay_button">200元</a>
         </div>
 
         <script type="text/javascript" src="{{ url_for('static', filename='js/weui.min.js')}}"></script>
+        <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/wx_pay.js')}}"></script>
 
     </body>

@@ -14,6 +14,8 @@ from flask import Flask, make_response, redirect, render_template, request
 
 from . import app, dispatcher
 
+from . import wx_pay
+
 importlib.reload(sys)  # 不加这部分处理中文还是会出问题
 
 
@@ -108,11 +110,19 @@ def redirect_member():
 @app.route('/pay/one_exercise_per_week')
 def pay_one_exerciese_per_week():
     print("get pay request")
-    return render_template("pay.html", msg="Diankun")
+
+    sig = wx_pay.get_jsapi_config(APPID, 'http://wwww.scyfc.club/pay/one_exercise_per_week')
+    data = { 
+        "appId": APPID,
+        "timestamp": sig['timestamp'],
+        "nonceStr": sig['nonceStr'],
+        "signature": sig['signature']
+    }
+    print(data)
+    return render_template("pay.html", mydata=data)
 
 
 @app.route('/pay/two_exercises_per_week')
 def pay_two_exercieses_per_week():
     print("get pay request")
     return "<h1>pay_two_exercieses_per_week</h1>"
-
