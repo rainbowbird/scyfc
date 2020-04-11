@@ -10,11 +10,10 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 
-from flask import Flask, make_response, redirect, render_template, request
+from flask import (Flask, jsonify, make_response, redirect, render_template,
+                   request)
 
-from . import app, dispatcher
-
-from . import wx_pay
+from . import app, dispatcher, wx_pay
 
 importlib.reload(sys)  # 不加这部分处理中文还是会出问题
 
@@ -126,3 +125,16 @@ def pay_one_exerciese_per_week():
 def pay_two_exercieses_per_week():
     print("get pay request")
     return "<h1>pay_two_exercieses_per_week</h1>"
+
+
+@app.route('/get_prepay_id')
+def get_prepay_id():
+    print('get prepay request')
+
+    data = {
+        "name": "Diankun",
+        "age": 43,
+        "msg": "hello"
+    }
+
+    return jsonify(data)
